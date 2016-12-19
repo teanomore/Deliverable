@@ -1,3 +1,213 @@
+<<<<<<< HEAD
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>QUnit Example</title>
+    <link rel="stylesheet" href="test/qunit/qunit-2.0.1.css">
+    <script src="/Script/jquery-3.1.1.min.js"></script>
+    <script src="/test/QUnit/qunit-2.0.1.js"></script>
+    <script type="text/javascript" src="/Script/CardsSorting.js"></script>
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script>
+
+        QUnit.test("getCategory returns straight flush for straight flush", function (assert) {
+            var hand = [
+                { suit: "club", suitValue: 1, rank: "7", rankValue: 8 },
+                { suit: "club", suitValue: 1, rank: "4", rankValue: 11 },
+                { suit: "club", suitValue: 1, rank: "6", rankValue: 9 },
+                { suit: "club", suitValue: 1, rank: "5", rankValue: 10 },
+                { suit: "club", suitValue: 1, rank: "3", rankValue: 12 },
+            ];
+            assert.ok(getCategory(hand)[1] == "straight flush");
+        });
+
+        QUnit.test("getCategory returns royal flush for royal flush", function (assert) {
+            var hand = [
+                { suit: "club", suitValue: 1, rank: "ace", rankValue: 1 },
+                { suit: "club", suitValue: 1, rank: "king", rankValue: 2 },
+                { suit: "club", suitValue: 1, rank: "queen", rankValue: 3 },
+                { suit: "club", suitValue: 1, rank: "jack", rankValue: 4 },
+                { suit: "club", suitValue: 1, rank: "10", rankValue: 5 },
+            ];
+            assert.ok(getCategory(hand)[1] == "royal flush");
+        });
+
+        QUnit.test("isFourOfAKind returns false for 3 rank values", function (assert) {
+            var cards = [[
+                { suit: "club", suitValue: 1, rank: "7", rankValue: 8 },
+                { suit: "hearts", suitValue: 2, rank: "7", rankValue: 8 },
+                { suit: "diamond", suitValue: 3, rank: "7", rankValue: 8 },
+                { suit: "club", suitValue: 1, rank: "4", rankValue: 11 },
+                { suit: "club", suitValue: 1, rank: "6", rankValue: 9 },
+            ]];
+            assert.ok(isFourOfAKind(cards) == false);
+        });
+
+        QUnit.test("isFourOfAKind recognized", function (assert) {
+            var cards = [[
+                { suit: "club", suitValue: 1, rank: "7", rankValue: 8 },
+                { suit: "hearts", suitValue: 2, rank: "7", rankValue: 8 },
+                { suit: "club", suitValue: 1, rank: "6", rankValue: 9 },
+                { suit: "diamond", suitValue: 3, rank: "7", rankValue: 8 },
+                { suit: "spades", suitValue: 4, rank: "7", rankValue: 8 },
+            ]];
+            assert.ok(isFourOfAKind(cards) == false);
+        });
+
+        QUnit.test("isFullHouse returns false for 3 rank values", function (assert) {
+            var cards = [[
+                { suit: "club", suitValue: 1, rank: "7", rankValue: 8 },
+                { suit: "hearts", suitValue: 2, rank: "7", rankValue: 8 },
+                { suit: "diamond", suitValue: 3, rank: "7", rankValue: 8 },
+                { suit: "club", suitValue: 1, rank: "4", rankValue: 11 },
+                { suit: "club", suitValue: 1, rank: "6", rankValue: 9 },
+            ]];
+            assert.ok(isFullHouse(cards) == false);
+        });
+
+        QUnit.test("isFullHouse recognized", function (assert) {
+            var cards = [[
+                { suit: "club", suitValue: 1, rank: "7", rankValue: 8 },
+                { suit: "hearts", suitValue: 2, rank: "7", rankValue: 8 },
+                { suit: "club", suitValue: 1, rank: "6", rankValue: 9 },
+                { suit: "diamond", suitValue: 3, rank: "7", rankValue: 8 },
+                { suit: "diamond", suitValue: 3, rank: "6", rankValue: 9 },
+            ]];
+            assert.ok(isFullHouse(cards) == false);
+        });
+
+        QUnit.test("getCategory is not flush for 3 rank values", function (assert) {
+            var cards = [
+                { suit: "club", suitValue: 1, rank: "7", rankValue: 8 },
+                { suit: "diamond", suitValue: 2, rank: "7", rankValue: 8 },
+                { suit: "hearts", suitValue: 3, rank: "7", rankValue: 8 },
+                { suit: "club", suitValue: 1, rank: "4", rankValue: 11 },
+                { suit: "club", suitValue: 1, rank: "6", rankValue: 9 },
+            ];
+            assert.ok(getCategory(cards)[1] == "three of a kind");
+        });
+
+        QUnit.test("getCategory returns flush", function (assert) {
+            var cards = [
+                { suit: "diamond", suitValue: 2, rank: "king", rankValue: 2 },
+                { suit: "diamond", suitValue: 2, rank: "queen", rankValue: 3 },
+                { suit: "diamond", suitValue: 2, rank: "8", rankValue: 7 },
+                { suit: "diamond", suitValue: 2, rank: "3", rankValue: 12 },
+                { suit: "diamond", suitValue: 2, rank: "6", rankValue: 9 },
+            ];
+            assert.ok(getCategory(cards)[1] == "flush");
+        });
+
+        QUnit.test("isStraightFlush is true for flush", function (assert) {
+            var cards = [ [
+                { suit: "club", suitValue: 1, rank: "7", rankValue: 8 },
+                { suit: "club", suitValue: 1, rank: "4", rankValue: 11 },
+                { suit: "club", suitValue: 1, rank: "6", rankValue: 9 },
+                { suit: "club", suitValue: 1, rank: "5", rankValue: 10 },
+                { suit: "club", suitValue: 1, rank: "3", rankValue: 12 },
+            ]];
+            assert.ok(isStraightFlush(cards) == true);
+
+        });
+
+        QUnit.test("isStraightFlush is false for non-sequential cards", function (assert) {
+            var cards = [[
+                { suit: "club", suitValue: 1, rank: "ace", rankValue: 1 },
+                { suit: "club", suitValue: 1, rank: "king", rankValue: 2 },
+                { suit: "club", suitValue: 1, rank: "2", rankValue: 2 },
+                { suit: "club", suitValue: 1, rank: "queen", rankValue: 4 },
+                { suit: "club", suitValue: 1, rank: "10", rankValue: 5 },
+            ]];
+            assert.ok(isStraightFlush(cards) == false);
+
+        });
+        QUnit.test("isStraightFlush is false for 2 suits", function (assert) {
+            var cards = [ [
+                { suit: "club", suitValue: 1, rank: "ace", rankValue: 1 },
+                { suit: "club", suitValue: 1, rank: "king", rankValue: 2 }],
+                [
+                    { suit: "hearts", suitValue: 3, rank: "ace", rankValue: 1 },
+                { suit: "hearts", suitValue: 3, rank: "king", rankValue: 2 }
+                ]
+            ];
+            assert.ok(isStraightFlush(cards) == false);
+
+        });
+
+        QUnit.test("getCategory returns straight", function (assert) {
+            var cards = [
+                { suit: "diamond", suitValue: 2, rank: "king", rankValue: 2 },
+                { suit: "diamond", suitValue: 2, rank: "queen", rankValue: 3 },
+                { suit: "club", suitValue: 1, rank: "10", rankValue: 5 },
+                { suit: "hearts", suitValue: 3, rank: "jack", rankValue: 4},
+                { suit: "diamond", suitValue: 2, rank: "9", rankValue: 6 },
+            ];
+            assert.ok(getCategory(cards)[1] == "straight");
+        });
+
+
+        QUnit.test("getCategory returns three of a kind", function (assert) {
+            var cards = [
+                { suit: "spades", suitValue: 2, rank: "king", rankValue: 2 },
+                { suit: "diamond", suitValue: 2, rank: "king", rankValue: 2 },
+                { suit: "club", suitValue: 1, rank: "king", rankValue: 2 },
+                { suit: "diamond", suitValue: 2, rank: "jack", rankValue: 4 },
+                { suit: "hearts", suitValue: 3, rank: "9", rankValue: 6 },
+            ];
+            assert.ok(getCategory(cards)[1] == "three of a kind");
+        });
+
+        QUnit.test("getCategory returns two pair", function (assert) {
+            var cards = [
+                { suit: "spades", suitValue: 2, rank: "king", rankValue: 2 },
+                { suit: "diamond", suitValue: 2, rank: "king", rankValue: 2 },
+                { suit: "club", suitValue: 1, rank: "jack", rankValue: 4 },
+                { suit: "diamond", suitValue: 2, rank: "jack", rankValue: 4 },
+                { suit: "hearts", suitValue: 3, rank: "9", rankValue: 6 },
+            ];
+            assert.ok(getCategory(cards)[1] == "two pair");
+        });
+
+        QUnit.test("getCategory returns one pair", function (assert) {
+            var cards = [
+                { suit: "spades", suitValue: 2, rank: "king", rankValue: 2 },
+                { suit: "diamond", suitValue: 2, rank: "king", rankValue: 2 },
+                { suit: "club", suitValue: 1, rank: "jack", rankValue: 4 },
+                { suit: "diamond", suitValue: 2, rank: "queen", rankValue: 3 },
+                { suit: "hearts", suitValue: 3, rank: "9", rankValue: 6 },
+            ];
+            assert.ok(getCategory(cards)[1] == "one pair");
+        });
+
+        QUnit.test("getCategory returns one high card", function (assert) {
+            var cards = [
+                { suit: "spades", suitValue: 4, rank: "king", rankValue: 2 },
+                { suit: "diamond", suitValue: 2, rank: "7", rankValue: 8 },
+                { suit: "club", suitValue: 1, rank: "jack", rankValue: 4 },
+                { suit: "diamond", suitValue: 2, rank: "queen", rankValue: 3 },
+                { suit: "hearts", suitValue: 3, rank: "9", rankValue: 6 },
+            ];
+            assert.ok(getCategory(cards)[1] == "high card");
+        });
+
+
+        QUnit.test("getCategory two pair", function (assert) {
+            var cards = [
+                { suit: "spades", suitValue: 4, rank: "7", rankValue: 8 },
+                { suit: "spades", suitValue: 4, rank: "2", rankValue: 13 },
+                { suit: "club", suitValue: 1, rank: "2", rankValue: 13 },
+                { suit: "diamond", suitValue: 2, rank: "5", rankValue: 10 },
+                { suit: "club", suitValue: 1, rank: "7", rankValue: 8 },
+            ];
+            assert.ok(getCategory(cards)[1] == "two pair");
+        });
+    </script>
+</body>
+=======
 ﻿<!DOCTYPE html>
 <html>
 <head>
@@ -195,4 +405,5 @@
         });
     </script>
 </body>
+>>>>>>> origin/master
 </html>

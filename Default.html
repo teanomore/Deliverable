@@ -1,3 +1,106 @@
+<<<<<<< HEAD
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <script src="script/jquery-3.1.1.min.js"></script>
+    <script src="script/CardsSorting.js"></script>
+</head>
+<body>
+    <p id="initialDeck"></p>
+    <p id="gameDeck"></p>
+    <table border="1">
+        <tr id='hand1'>
+            <td>First player: </td>
+        </tr>
+        <tr id='hand2'>
+            <td>Second player: </td>
+        </tr>
+    </table>
+    <p id="hand1Category"></p>
+    <p id="hand2Category"></p>
+
+    <script>
+        function carddef(suit, rank) {
+                this.suit = suit;
+                this.rank = rank;
+        }
+        function Hand (name, cards) {
+                this.name = name;
+                this.cards = cards;
+        }
+
+        $(function () {
+
+            var deck = GetDeck();
+            
+
+            function GetDeck() {
+                var cards = []
+                $.ajax({
+                    type: "GET",
+                    url: "deck.xml",
+                    dataType: "xml",
+                    success: function (xml) {
+                        $('card', xml).each(function () {
+                            var card = {
+                                suit: this.attributes['suit'].value,
+                                suitValue: this.attributes['suitValue'].value,
+                                rank: this.attributes['rank'].value,
+                                rankValue: this.attributes['rankValue'].value
+                            }
+                            cards.push(card);
+                        });
+
+                    },
+                    complete: function () { DealCardsAndRenderTables(); },
+                    fail: function () { alert("Could not load deck."); }
+                });
+                return cards;
+            }
+
+            function DealCardsAndRenderTables() {
+                $("#initialDeck")[0].innerHTML = "Deck has " + deck.length + " cards";
+                var hand1 = GenerateHand(deck);
+                var hand2 = GenerateHand(deck);
+                $(hand1).each(function () { $("#hand1").append("<td>" + this.rank + " of " + this.suit + "</td>"); });
+                $(hand2).each(function () { $("#hand2").append("<td>" + this.rank + " of " + this.suit + "</td>"); });
+                $("#gameDeck")[0].innerHTML = deck.length + " cards left in the deck";
+                var hand1Category = getCategory(hand1);
+                var hand2Category = getCategory(hand2);
+                var hand1IsWinner = hand1Category[0] < hand2Category[0];
+                var hand2IsWinner = hand1Category[0] > hand2Category[0];
+                //if (hand1Category == hand2Category) debug;
+                $("#hand1Category")[0].innerHTML = "Hand1 is " + hand1Category[1] + (hand1IsWinner ? "; it is winner" : "");
+                $("#hand2Category")[0].innerHTML = "Hand2 is " + hand2Category[1] + (hand2IsWinner ? "; it is winner" : "");
+            }
+
+            function DisplayDeckLength() { $("#deck")[0].innerHTML = "Deck has " + deck.length + " cards"; }
+
+            function GenerateHand(deck) {
+                if (deck == null || deck.length < 1) { return; };
+                var hand = [];
+                for (var i = 1; i <= 5; i++) {
+                    var randomCardNumber = randomIntFromInterval(1, deck.length - 1);
+                    var randomCard = deck[randomCardNumber];
+                    //if (randomCard.rank === undefined) debug;
+                    hand.push(randomCard);
+                    deck.splice(randomCardNumber, 1);
+                }
+                return hand;
+            }
+
+            function randomIntFromInterval(min, max) {
+                return Math.floor(Math.random() * (max - min + 1) + min);
+            }
+
+        });
+
+    </script>
+</body>
+</html>
+=======
 ﻿<!DOCTYPE html>
 <html>
 <head>
@@ -97,3 +200,4 @@
     </script>
 </body>
 </html>
+>>>>>>> origin/master
